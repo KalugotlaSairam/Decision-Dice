@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decision Dice</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="static-bg"></div>
+
+    <nav class="navbar">
+        <h1 class="logo">🎲 Decision Dice</h1>
+        <ul>
+            <li><a href="#" onclick="showSection('home')">Home</a></li>
+            <li><a href="#" onclick="showSection('play')">Play</a></li>
+            <li><a href="#" onclick="showSection('how')">How to Play</a></li>
+        </ul>
+    </nav>
+
+    <!-- Home Section -->
+    <section id="home" class="section active">
+        <div class="card glass">
+            <h2>Welcome to <span>Decision Dice!</span></h2>
+            <p>Can’t decide what to do? Flip a coin or roll a dice and let fate decide for you!</p>
+            <button class="btn" onclick="showSection('play')">🎮 Get Started</button>
+        </div>
+    </section>
+
+    <!-- Play Section -->
+    <section id="play" class="section">
+        <div class="card glass">
+            <h2>Play the Game 🎲</h2>
+
+            <div class="select-mode">
+                <button class="choice-btn" id="coinBtn" onclick="selectMode('coin')">🪙 Coin</button>
+                <button class="choice-btn" id="diceBtn" onclick="selectMode('dice')">🎲 Dice</button>
+            </div>
+
+            <div id="optionsContainer" style="display:none;">
+                <div id="optionFields"></div>
+                <div class="buttons">
+                    <button class="btn" onclick="makeDecision()">Decide!</button>
+                    <button class="btn reset-btn" onclick="resetGame()">Reset</button>
+                </div>
+            </div>
+
+            <div id="result" class="result"></div>
+        </div>
+    </section>
+
+    <!-- How to Play Section -->
+    <section id="how" class="section">
+        <div class="card glass instructions">
+            <h2>How to Play 🧠</h2>
+            <ol>
+                <li>Select <b>Coin</b> for 2 choices or <b>Dice</b> for 3–6 choices.</li>
+                <li>Type your options clearly in the fields provided.</li>
+                <li>Click <b>Decide!</b> to get a random result instantly.</li>
+                <li>Use <b>Reset</b> to clear everything and start again.</li>
+                <li>Coin is perfect for “Yes / No” decisions.</li>
+                <li>Dice is best for 3–6 choices (like food, games, plans).</li>
+                <li>Fate is fair — every option has equal chance!</li>
+                <li>Enjoy making quick, fun decisions with your friends 🎉</li>
+            </ol>
+        </div>
+    </section>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
