@@ -1,53 +1,73 @@
+// Show only one section at a time
 function showSection(id) {
   document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+  const section = document.getElementById(id);
+  if (section) {
+    section.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } else {
+    console.error("Section not found:", id);
+  }
 }
 
+// Selected mode variable
 let mode = "";
 
+// Select mode (coin/dice) and render inputs
 function selectMode(type) {
   mode = type;
-  document.getElementById("optionsContainer").style.display = "block";
-  document.getElementById("result").innerHTML = "";
+  const optionsContainer = document.getElementById("optionsContainer");
+  const optionFields = document.getElementById("optionFields");
+  const resultEl = document.getElementById("result");
+  resultEl.innerHTML = "";
+  optionsContainer.style.display = "block";
 
-  // Hide the other mode button
+  // hide other button
   if (type === "coin") {
-      document.getElementById("diceBtn").style.display = "none";
+    const d = document.getElementById("diceBtn");
+    if (d) d.style.display = "none";
   } else {
-      document.getElementById("coinBtn").style.display = "none";
+    const c = document.getElementById("coinBtn");
+    if (c) c.style.display = "none";
   }
 
-  let fields = "";
-  if (type === "coin") {
-      for (let i = 1; i <= 2; i++) {
-          fields += `<input type="text" placeholder="Option ${i}" class="optionInput"><br>`;
-      }
-  } else {
-      for (let i = 1; i <= 6; i++) {
-          fields += `<input type="text" placeholder="Option ${i}" class="optionInput"><br>`;
-      }
+  // create fields: 2 for coin, 6 for dice
+  const total = type === "coin" ? 2 : 6;
+  let html = "";
+  for (let i = 1; i <= total; i++) {
+    html += `<input type="text" class="optionInput" id="opt${i}" placeholder="Option ${i}"><br>`;
   }
-  document.getElementById("optionFields").innerHTML = fields;
+  optionFields.innerHTML = html;
 }
 
+// Decide button handler
 function makeDecision() {
-  const options = Array.from(document.querySelectorAll('.optionInput'))
-      .map(input => input.value.trim())
-      .filter(v => v !== "");
-
+  const inputs = Array.from(document.querySelectorAll('.optionInput'));
+  const options = inputs.map(i => i.value.trim()).filter(v => v !== "");
   if (options.length < 2) {
-      alert("Please fill at least two options.");
-      return;
+    alert("Please enter at least 2 options.");
+    return;
   }
-
-  const randomIndex = Math.floor(Math.random() * options.length);
-  document.getElementById("result").innerHTML = `🎯 Result: <span>${options[randomIndex]}</span>`;
+  const idx = Math.floor(Math.random() * options.length);
+  const resultEl = document.getElementById("result");
+  resultEl.innerHTML = `🎯 Result: <span>${options[idx]}</span>`;
 }
 
+// Reset everything
 function resetGame() {
-  document.getElementById("optionFields").innerHTML = "";
-  document.getElementById("optionsContainer").style.display = "none";
+  const optionFields = document.getElementById("optionFields");
+  if (optionFields) optionFields.innerHTML = "";
+  const optionsContainer = document.getElementById("optionsContainer");
+  if (optionsContainer) optionsContainer.style.display = "none";
   document.getElementById("result").innerHTML = "";
-  document.getElementById("coinBtn").style.display = "inline-block";
-  document.getElementById("diceBtn").style.display = "inline-block";
+  const coinBtn = document.getElementById("coinBtn");
+  const diceBtn = document.getElementById("diceBtn");
+  if (coinBtn) coinBtn.style.display = "inline-block";
+  if (diceBtn) diceBtn.style.display = "inline-block";
+  mode = "";
 }
+
+// ensure home shows on page load
+document.addEventListener("DOMContentLoaded", () => {
+  showSection("home");
+});
