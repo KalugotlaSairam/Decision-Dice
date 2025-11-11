@@ -8,9 +8,10 @@
 
 body {
   color: #fff;
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
+  overflow-y: auto;
 }
+
 
 /* Background gradient */
 .static-bg {

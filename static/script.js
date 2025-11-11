@@ -44,14 +44,29 @@ function selectMode(type) {
 function makeDecision() {
   const inputs = Array.from(document.querySelectorAll('.optionInput'));
   const options = inputs.map(i => i.value.trim()).filter(v => v !== "");
+
   if (options.length < 2) {
     alert("Please enter at least 2 options.");
     return;
   }
+
   const idx = Math.floor(Math.random() * options.length);
   const resultEl = document.getElementById("result");
-  resultEl.innerHTML = `🎯 Result: <span>${options[idx]}</span>`;
+
+  // Show temporary rolling text (optional effect)
+  resultEl.innerHTML = "🎲 Rolling...";
+  resultEl.style.display = "block";
+
+  // Small delay for realistic feel
+  setTimeout(() => {
+    resultEl.innerHTML = `🎯 Result: <span>${options[idx]}</span>`;
+    resultEl.style.display = "block";
+
+    // 👇 Important: scroll result into view on mobile
+    resultEl.scrollIntoView({ behavior: "smooth", block: "center" });
+  }, 700);
 }
+
 
 // Reset everything
 function resetGame() {
